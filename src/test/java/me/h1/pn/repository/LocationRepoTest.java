@@ -1,6 +1,6 @@
 package me.h1.pn.repository;
 
-import me.h1.pn.model.Topic;
+import me.h1.pn.model.Location;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,32 +18,32 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @EnableJpaAuditing
-public class TopicRepoTest {
+public class LocationRepoTest {
 
-    public static final String FIRE = "fire";
+    private static final String MULGRAVE = "Mulgrave";
 
     @Autowired
     private TestEntityManager testEntityManager;
     @Autowired
-    private TopicRepo topicRepo;
+    private LocationRepo locationRepo;
 
-    private final Topic fireTopic = new Topic();
+    private final Location mulgraveLocation = new Location();
 
     @Before
-    public void setup() {
-        fireTopic.setName(FIRE);
-        testEntityManager.persistAndFlush(fireTopic);
+    public void setUp() throws Exception {
+        mulgraveLocation.setName(MULGRAVE);
+        testEntityManager.persistAndFlush(mulgraveLocation);
     }
 
     @After
-    public void cleanup() {
-        testEntityManager.remove(fireTopic);
+    public void tearDown() throws Exception {
+        testEntityManager.remove(mulgraveLocation);
     }
 
     @Test
-    public void shouldGetFireTopic() {
-        Topic topic = topicRepo.findByName(FIRE);
-        assertThat(topic, notNullValue());
-        assertThat(topic.getName(), equalTo(FIRE));
+    public void shouldGetByName() {
+        Location location = locationRepo.findByName(MULGRAVE);
+        assertThat(location, notNullValue());
+        assertThat(location.getName(), equalTo(MULGRAVE));
     }
 }

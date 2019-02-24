@@ -1,6 +1,8 @@
 package me.h1.pn.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,7 +14,9 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 @Entity
-public class Message extends CommonColumns {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Notificatoin extends CommonColumns {
 
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -22,6 +26,6 @@ public class Message extends CommonColumns {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Location location;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String text;
+    @Column(nullable = false)
+    private String content;
 }

@@ -25,12 +25,12 @@ public abstract class CommonColumns {
     private Integer id;
 
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     @CreatedDate
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     @LastModifiedDate
     private Date updatedAt;
 
