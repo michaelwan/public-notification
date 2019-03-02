@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Notificatoin extends CommonColumns {
+public class Notification extends CommonColumns {
 
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

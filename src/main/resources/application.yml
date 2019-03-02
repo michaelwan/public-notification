@@ -1,3 +1,11 @@
+management:
+  endpoint:
+    jolokia.config.debug: true
+    metrics.enabled: true
+    prometheus.enabled: true
+  endpoints.web.exposure.include: '*'
+  metrics.export.prometheus.enabled: true
+
 ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
 spring.datasource:
   url: "jdbc:postgresql://localhost:5432/public-notification"
@@ -11,7 +19,8 @@ spring.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialec
 spring.jpa.hibernate.ddl-auto: "update"
 
 ---
-spring.profile: development
+spring.profile: docker
+spring.datasource.url: "jdbc:postgresql://Michaels-MacBook-Pro-2.local:5432/public-notification"
 
 ---
-spring.profile: production
+spring.profile: aws

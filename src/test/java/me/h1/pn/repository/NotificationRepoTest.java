@@ -1,7 +1,7 @@
 package me.h1.pn.repository;
 
 import me.h1.pn.model.Location;
-import me.h1.pn.model.Notificatoin;
+import me.h1.pn.model.Notification;
 import me.h1.pn.model.Topic;
 import org.junit.After;
 import org.junit.Before;
@@ -35,30 +35,30 @@ public class NotificationRepoTest {
 
     private final Topic trafficTopic = new Topic(TRAFFIC);
     private final Location darlingLocation = new Location(DARLING);
-    private final Notificatoin notificatoin1 = new Notificatoin(trafficTopic, darlingLocation, CONTENT);
+    private final Notification notification1 = new Notification(trafficTopic, darlingLocation, CONTENT);
 
     @Before
     public void setUp() throws Exception {
         testEntityManager.persistAndFlush(trafficTopic);
         testEntityManager.persistAndFlush(darlingLocation);
-        testEntityManager.persistAndFlush(notificatoin1);
+        testEntityManager.persistAndFlush(notification1);
     }
 
     @After
     public void tearDown() throws Exception {
-        testEntityManager.remove(notificatoin1);
+        testEntityManager.remove(notification1);
         testEntityManager.remove(trafficTopic);
         testEntityManager.remove(darlingLocation);
     }
 
     @Test
     public void shouldGetNotificationByTopic() {
-        List<Notificatoin> notificatoins = notificationRepo.findByTopic(trafficTopic);
-        assertThat(notificatoins, notNullValue());
-        assertThat(notificatoins.size(), equalTo(1));
-        Notificatoin notificatoin = notificatoins.get(0);
-        assertThat(notificatoin.getTopic().getName(), equalTo(TRAFFIC));
-        assertThat(notificatoin.getLocation().getName(), equalTo(DARLING));
-        assertThat(notificatoin.getContent(), equalTo(CONTENT));
+        List<Notification> notifications = notificationRepo.findByTopic(trafficTopic);
+        assertThat(notifications, notNullValue());
+        assertThat(notifications.size(), equalTo(1));
+        Notification notification = notifications.get(0);
+        assertThat(notification.getTopic().getName(), equalTo(TRAFFIC));
+        assertThat(notification.getLocation().getName(), equalTo(DARLING));
+        assertThat(notification.getContent(), equalTo(CONTENT));
     }
 }

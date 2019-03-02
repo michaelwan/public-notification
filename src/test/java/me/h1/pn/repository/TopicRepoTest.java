@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -42,8 +44,9 @@ public class TopicRepoTest {
 
     @Test
     public void shouldGetFireTopic() {
-        Topic topic = topicRepo.findByName(FIRE);
+        Optional<Topic> topic = topicRepo.findByName(FIRE);
         assertThat(topic, notNullValue());
-        assertThat(topic.getName(), equalTo(FIRE));
+        assertThat(topic.isPresent(), equalTo(true));
+        assertThat(topic.get().getName(), equalTo(FIRE));
     }
 }

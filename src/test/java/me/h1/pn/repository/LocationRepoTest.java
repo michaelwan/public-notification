@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -42,8 +44,9 @@ public class LocationRepoTest {
 
     @Test
     public void shouldGetByName() {
-        Location location = locationRepo.findByName(MULGRAVE);
+        Optional<Location> location = locationRepo.findByName(MULGRAVE);
         assertThat(location, notNullValue());
-        assertThat(location.getName(), equalTo(MULGRAVE));
+        assertThat(location.isPresent(), equalTo(true));
+        assertThat(location.get().getName(), equalTo(MULGRAVE));
     }
 }
