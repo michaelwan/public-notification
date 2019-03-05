@@ -23,6 +23,7 @@ public class PublishService {
     private final TopicRepo topicRepo;
     private final LocationRepo locationRepo;
     private final NotificationRepo notificationRepo;
+    private final SNSService snsService;
 
     public Page<Topic> getTopics(Pageable pageable) {
         return topicRepo.findAll(pageable);
@@ -38,6 +39,7 @@ public class PublishService {
             Location location = locationRepo.save(new Location(locationName));
             locationOptional = Optional.of(location);
         }
+        snsService.publishMessage(topicOptional.get().getArn(), locationName, content);
         return notificationRepo.save(new Notification(topicOptional.get(), locationOptional.get(), content));
     }
 }

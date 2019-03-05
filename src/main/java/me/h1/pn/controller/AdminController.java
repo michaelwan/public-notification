@@ -17,13 +17,6 @@ import javax.validation.Valid;
 public class AdminController {
 
     private final AdminService adminService;
-    private final PublishService publishService;
-
-    @GetMapping("/topics")
-    public Page<Topic> getTopics(Pageable pageable) {
-        return publishService.getTopics(pageable);
-    }
-
     @PostMapping("/topic")
     public Topic createTopic(@Valid @RequestBody Topic topic) {
         return adminService.createTopic(topic);

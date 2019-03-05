@@ -15,6 +15,7 @@ ext {
     apacheCommonsVersion = '3.8.1'
     logstashVersion = '5.3'
     awsSdkVersion = '2.5.1'
+    mockitoVersion = '2.24.5'
 }
 
 sourceCompatibility = 11
@@ -38,7 +39,17 @@ dependencies {
             "org.postgresql:postgresql:${postgresqlVersion}",
             "org.apache.commons:commons-lang3:${apacheCommonsVersion}",
             "net.logstash.logback:logstash-logback-encoder:${logstashVersion}",
-            "software.amazon.awssdk:sns:${awsSdkVersion}"
+            "software.amazon.awssdk:sns:${awsSdkVersion}",
+            "software.amazon.awssdk:utils:${awsSdkVersion}",
+            "software.amazon.awssdk:core:${awsSdkVersion}",
+            "software.amazon.awssdk:http-client-spi:${awsSdkVersion}",
+            "software.amazon.awssdk:apache-client:${awsSdkVersion}",
+            "software.amazon.awssdk:auth:${awsSdkVersion}",
+            "software.amazon.awssdk:sdk-core:${awsSdkVersion}",
+            "software.amazon.awssdk:netty-nio-client:${awsSdkVersion}",
+//            "software.amazon.awssdk:auth:${awsSdkVersion}",
+//            "software.amazon.awssdk:auth:${awsSdkVersion}",
+            "org.mockito:mockito-core:${mockitoVersion}"
     )
 
     compileOnly (

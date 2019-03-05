@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.h1.pn.model.Topic;
 import me.h1.pn.repository.TopicRepo;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,6 +19,7 @@ import static net.logstash.logback.marker.Markers.appendEntries;
 public class AdminService {
 
     private final TopicRepo topicRepo;
+    private final SNSService snsService;
 
     public Topic createTopic(Topic topic) {
 
@@ -28,6 +27,8 @@ public class AdminService {
         markers.put("event", "create topic");
         try {
             markers.put("result", "success");
+            String arn = snsService.createTopic(topic.getName());
+            topic.setArn(arn);
             return topicRepo.save(topic);
         } catch (RuntimeException e) {
             markers.put("result", "failure");
@@ -44,6 +45,7 @@ public class AdminService {
         markers.put("data", "topic id: " + topicId);
         Optional<Topic> topic = topicRepo.findById(topicId);
         if(topic.isPresent()) {
+            snsService.deleteTopic(topic.get().getArn());
             topicRepo.delete(topic.get());
             markers.put("result", "success");
         } else {

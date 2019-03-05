@@ -10,4 +10,7 @@
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
+    <logger name="me.h1.pn" level="debug">
+        <appender-ref ref="STDOUT" />
+    </logger>
 </configuration>

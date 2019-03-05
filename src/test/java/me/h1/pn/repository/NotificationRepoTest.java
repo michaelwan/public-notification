@@ -33,7 +33,7 @@ public class NotificationRepoTest {
     @Autowired
     private NotificationRepo notificationRepo;
 
-    private final Topic trafficTopic = new Topic(TRAFFIC);
+    private final Topic trafficTopic = new Topic(TRAFFIC, DARLING);
     private final Location darlingLocation = new Location(DARLING);
     private final Notification notification1 = new Notification(trafficTopic, darlingLocation, CONTENT);
 

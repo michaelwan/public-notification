@@ -23,6 +23,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class TopicRepoTest {
 
     public static final String FIRE = "fire";
+    public static final String ARN_FIRE = "arn:fire";
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -34,6 +35,7 @@ public class TopicRepoTest {
     @Before
     public void setup() {
         fireTopic.setName(FIRE);
+        fireTopic.setArn(ARN_FIRE);
         testEntityManager.persistAndFlush(fireTopic);
     }
 
@@ -48,5 +50,6 @@ public class TopicRepoTest {
         assertThat(topic, notNullValue());
         assertThat(topic.isPresent(), equalTo(true));
         assertThat(topic.get().getName(), equalTo(FIRE));
+        assertThat(topic.get().getArn(), equalTo(ARN_FIRE));
     }
 }

@@ -20,8 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,6 +28,10 @@ public class PublishServiceTest {
 
     public static final String TEST_LOCATOIN = "testLocatoin";
     public static final String TEST_CONTENT = "testContent";
+    public static final String ARN_AWS_TEST = "arn:aws:test";
+    public static final String FIRE = "fire";
+    public static final String MULGRAVE = "Mulgrave";
+    public static final String TEST_NOTIFICATION = "Test Notification!";
     @Mock
     private TopicRepo topicRepoMock;
     @Mock
@@ -37,6 +40,8 @@ public class PublishServiceTest {
     private NotificationRepo notificationRepoMock;
     @Mock
     private Pageable pageable;
+    @Mock
+    private SNSService snsService;
 
     private PublishService publishService;
 
@@ -46,18 +51,19 @@ public class PublishServiceTest {
 
     @Before
     public void setup() {
-        publishService = new PublishService(topicRepoMock, locationRepoMock, notificationRepoMock);
+        publishService = new PublishService(topicRepoMock, locationRepoMock, notificationRepoMock, snsService);
         topic = new Topic();
         topic.setId(1);
-        topic.setName("fire");
+        topic.setName(FIRE);
+        topic.setArn(ARN_AWS_TEST);
         location = new Location();
         location.setId(1);
-        location.setName("Mulgrave");
+        location.setName(MULGRAVE);
         notification = new Notification();
         notification.setId(1);
         notification.setTopic(topic);
         notification.setLocation(location);
-        notification.setContent("Test Notification!");
+        notification.setContent(TEST_NOTIFICATION);
 
     }
 
@@ -78,6 +84,7 @@ public class PublishServiceTest {
         verify(locationRepoMock).findByName(TEST_LOCATOIN);
         verify(locationRepoMock, times(0)).save(any());
         verify(notificationRepoMock).save(any());
+        verify(snsService).publishMessage(ARN_AWS_TEST, TEST_LOCATOIN, TEST_CONTENT);
     }
 
     @Test
@@ -92,6 +99,7 @@ public class PublishServiceTest {
         verify(locationRepoMock).findByName(TEST_LOCATOIN);
         verify(locationRepoMock).save(any());
         verify(notificationRepoMock).save(any());
+        verify(snsService).publishMessage(ARN_AWS_TEST, TEST_LOCATOIN, TEST_CONTENT);
     }
 
     @Test(expected = ResourceNotFoundException.class)
@@ -99,8 +107,8 @@ public class PublishServiceTest {
         when(topicRepoMock.findById(1)).thenReturn(Optional.empty());
         Notification notificationResult = publishService.createNotification(1, TEST_LOCATOIN, TEST_CONTENT);
         verify(topicRepoMock).findById(1);
-        verify(locationRepoMock, times(0)).findByName(TEST_LOCATOIN);
-        verify(locationRepoMock, times(0)).save(any());
-        verify(notificationRepoMock, times(0)).save(any());
+        verifyZeroInteractions(locationRepoMock);
+        verifyZeroInteractions(notificationRepoMock);
+        verifyZeroInteractions(snsService);
     }
 }

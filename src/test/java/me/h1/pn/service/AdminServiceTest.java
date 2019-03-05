@@ -19,12 +19,14 @@ public class AdminServiceTest {
 
     @Mock
     private TopicRepo topicRepoMock;
+    @Mock
+    private SNSService snsService;
 
     private AdminService adminService;
 
     @Before
     public void setup() {
-        adminService = new AdminService(topicRepoMock);
+        adminService = new AdminService(topicRepoMock, snsService);
     }
 
     @Test
