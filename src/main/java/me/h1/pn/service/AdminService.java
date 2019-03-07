@@ -18,20 +18,21 @@ import static net.logstash.logback.marker.Markers.appendEntries;
 @Slf4j
 public class AdminService {
 
+    public static final String RESULT = "result";
     private final TopicRepo topicRepo;
     private final SNSService snsService;
 
-    public Topic createTopic(Topic topic) {
+    public Topic createTopic(String topicName) {
 
         Map<String, String> markers = new HashMap<>();
         markers.put("event", "create topic");
         try {
-            markers.put("result", "success");
-            String arn = snsService.createTopic(topic.getName());
-            topic.setArn(arn);
+            markers.put(RESULT, "success");
+            String arn = snsService.createTopic(topicName);
+            Topic topic = Topic.builder().name(topicName).arn(arn).build();
             return topicRepo.save(topic);
         } catch (RuntimeException e) {
-            markers.put("result", "failure");
+            markers.put(RESULT, "failure");
             markers.put("message", ExceptionUtils.getRootCauseMessage(e));
             throw e;
         } finally {
@@ -47,9 +48,9 @@ public class AdminService {
         if(topic.isPresent()) {
             snsService.deleteTopic(topic.get().getArn());
             topicRepo.delete(topic.get());
-            markers.put("result", "success");
+            markers.put(RESULT, "success");
         } else {
-            markers.put("result", "ignored");
+            markers.put(RESULT, "ignored");
         }
         log.info(appendEntries(markers), "completed");
     }

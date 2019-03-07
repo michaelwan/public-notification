@@ -23,7 +23,7 @@ public class SubscribeController {
     private final SubscribeService subscribeService;
 
     @PostMapping("topic")
-    public ResponseEntity<?> subscribe(@Valid @RequestBody SubscribeRequest subscribeRequest) {
+    public ResponseEntity<Void> subscribe(@Valid @RequestBody SubscribeRequest subscribeRequest) {
         try {
             subscribeService.subscribe(subscribeRequest.getTopicId(), subscribeRequest.getEmail(), subscribeRequest.getLocations());
             return ResponseEntity.ok().build();

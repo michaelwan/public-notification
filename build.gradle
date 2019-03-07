@@ -47,8 +47,6 @@ dependencies {
             "software.amazon.awssdk:auth:${awsSdkVersion}",
             "software.amazon.awssdk:sdk-core:${awsSdkVersion}",
             "software.amazon.awssdk:netty-nio-client:${awsSdkVersion}",
-//            "software.amazon.awssdk:auth:${awsSdkVersion}",
-//            "software.amazon.awssdk:auth:${awsSdkVersion}",
             "org.mockito:mockito-core:${mockitoVersion}"
     )
 
@@ -58,7 +56,7 @@ dependencies {
 
     testImplementation (
             'org.springframework.boot:spring-boot-starter-test',
-            "org.hsqldb:hsqldb:${hsqldbVersion}"
+            "org.hsqldb:hsqldb:${hsqldbVersion}",
     )
     
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
